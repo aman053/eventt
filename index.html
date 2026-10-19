@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090A0C">
+  <meta name="description" content="EventEase — plan events, guests, tasks and budgets in one workspace.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon.svg">
+  <link rel="stylesheet" href="css/style.css?v=34">
+  <link rel="stylesheet" href="css/liquid-glass.css?v=34">
+  <link rel="stylesheet" href="css/obsidian-gold.css?v=41">
+  <title>EventEase — Plan. Organize. Celebrate.</title>
+</head>
+<body class="landing-page">
+  <header class="site-header">
+    <a class="brand" href="index.html"><span class="brand-mark">E</span><span>EventEase</span></a>
+    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+    <nav class="nav-links" id="mainNav">
+      <a class="active" href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="contact.html">Contact</a>
+      <a href="settings.html">Settings</a>
+      <a href="login.html" data-auth-login>Login</a>
+      <a class="nav-cta" href="register.html" data-auth-register>Get Started</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero container">
+      <div class="hero-copy reveal">
+        <span class="eyebrow">EVENT PLANNING, ELEVATED</span>
+        <h1>Plan. Organize.<br><span class="gradient-text">Celebrate.</span></h1>
+        <p>Guests, tasks, venues and budgets — one calm workspace for every celebration.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="register.html">Start free →</a>
+          <a class="btn btn-ghost" href="services.html">See features</a>
+        </div>
+        <div class="trust-row">
+          <span>✓ Free to start</span>
+          <span>✓ Works offline</span>
+          <span>✓ AI assistant</span>
+        </div>
+      </div>
+      <div class="hero-card reveal delay-1">
+        <div class="hero-card-photo" role="img" aria-label="Celebration venue"></div>
+        <div class="window-top"><span></span><span></span><span></span><b>EventEase dashboard</b></div>
+        <div class="preview-grid">
+          <div class="mini-stat"><small>Total events</small><strong id="heroEvents">0</strong></div>
+          <div class="mini-stat"><small>Guests</small><strong id="heroGuests">0</strong></div>
+          <div class="mini-stat"><small>Budget</small><strong id="heroBudget">₹0</strong></div>
+          <div class="mini-stat dark"><small>Tasks done</small><strong id="heroTasks">0%</strong></div>
+        </div>
+        <div class="preview-event">
+          <div>
+            <small>NEXT EVENT</small>
+            <h3>Make something memorable.</h3>
+            <p>Track the details that make your event special.</p>
+          </div>
+          <span class="date-pill">2026<br><b>OCT</b></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section container" id="features">
+      <div class="section-heading">
+        <span class="eyebrow">WHY EVENTEASE</span>
+        <h2>One place for the whole event.</h2>
+        <p>Simple tools for the work behind every great celebration.</p>
+      </div>
+      <div class="feature-grid">
+        <article class="feature-card reveal"><div class="icon">◫</div><h3>Event management</h3><p>Create and track weddings, parties, workshops, meetings and campus events.</p></article>
+        <article class="feature-card reveal delay-1"><div class="icon">◎</div><h3>Guest management</h3><p>Keep guest details, RSVP status and plus-ones organized and searchable.</p></article>
+        <article class="feature-card reveal delay-2"><div class="icon">✓</div><h3>Task management</h3><p>Break an event into tasks, priorities and completion progress.</p></article>
+        <article class="feature-card reveal"><div class="icon">₹</div><h3>Budget tracking</h3><p>Set a budget, record expenses and see remaining funds instantly.</p></article>
+        <article class="feature-card reveal delay-1"><div class="icon">⌖</div><h3>Venue management</h3><p>Store venue capacity, address and contact information beside your event.</p></article>
+        <article class="feature-card ai-card reveal delay-2"><div class="icon">✦</div><h3>EventEase AI</h3><p>Ask the built-in assistant for schedules, ideas, checklists and planning help.</p><button class="text-btn" data-open-chat>Try AI assistant →</button></article>
+      </div>
+    </section>
+
+    <section class="split-section">
+      <div class="container split">
+        <div class="visual-card reveal">
+          <div class="orb"></div>
+          <div class="floating-chip chip-one">✓ Venue booked</div>
+          <div class="floating-chip chip-two">+ 24 guests</div>
+          <div class="floating-chip chip-three">₹ 18,500 saved</div>
+          <div class="visual-center">E</div>
+        </div>
+        <div class="split-copy reveal">
+          <span class="eyebrow">BUILT FOR REAL PLANNING</span>
+          <h2>Less chasing details.<br>More enjoying the moment.</h2>
+          <p>From the first idea to the final guest, EventEase keeps your event information connected so you can focus on making it memorable.</p>
+          <a class="btn btn-primary" href="about.html">See how it works →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta container reveal">
+      <div>
+        <span class="eyebrow">READY WHEN YOU ARE</span>
+        <h2>Turn your next idea into an event.</h2>
+        <p>Create an account and start planning in seconds.</p>
+      </div>
+      <a class="btn btn-primary" href="register.html">Create free account →</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div><strong>EventEase</strong><p>Event Planning &amp; Management System</p></div>
+      <div>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="contact.html">Contact</a>
+        <a href="login.html">Login</a>
+      </div>
+    </div>
+  </footer>
+
+  <button class="chat-fab" data-open-chat aria-label="Open EventEase AI">✦</button>
+  <div id="chat-root"></div>
+  <script src="js/store.js?v=34"></script>
+  <script src="js/script.js?v=34"></script>
+  <script src="js/transitions.js?v=34"></script>
+  <script src="js/planner.js?v=34"></script>
+  <script src="js/chatbot.js?v=34"></script>
+  <script src="js/settings.js?v=38"></script>
+  <script src="js/i18n.js?v=34"></script>
+</body>
+</html>

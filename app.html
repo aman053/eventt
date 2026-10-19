@@ -1,0 +1,366 @@
+<!doctype html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#090A0C"><meta name="description" content="EventEase dashboard"><link rel="manifest" href="manifest.json"><link rel="icon" href="icons/icon.svg"><link rel="stylesheet" href="css/style.css?v=34"><link rel="stylesheet" href="css/liquid-glass.css?v=34"><link rel="stylesheet" href="css/obsidian-gold.css?v=41"><title>Dashboard — EventEase</title></head><body class="app-page"><header class="app-header">
+
+    <!-- LOGO: ONLY GOES HOME. NEVER LOGS OUT -->
+    <a
+        class="brand"
+        href="index.html"
+        id="homeBrand"
+        aria-label="EventEase Home"
+    >
+        <span class="brand-mark">E</span>
+        <span>EventEase</span>
+    </a>
+
+    <nav class="app-nav" aria-label="Application navigation">
+        <button type="button" class="nav-view-btn active" data-view-target="overview">Overview</button>
+        <button type="button" class="nav-view-btn" data-view-target="dashboard">Dashboard</button>
+        <button type="button" class="nav-view-btn" data-view-target="events">Events</button>
+        <button type="button" class="nav-view-btn" data-view-target="budget">Budget</button>
+        <button type="button" class="nav-view-btn" data-view-target="calendar">Calendar</button>
+        <button type="button" class="nav-view-btn" data-view-target="reminders">Reminders</button>
+        <button type="button" class="nav-view-btn" data-view-target="ai">AI Assistant</button>
+    </nav>
+
+    <!-- ACCOUNT -->
+    <div class="account-menu" id="accountMenu">
+
+        <button
+            type="button"
+            class="account-trigger"
+            id="accountTrigger"
+            aria-expanded="false"
+            aria-haspopup="true"
+        >
+            <span class="account-avatar" id="userAvatar">E</span>
+
+            <span class="account-info">
+                <strong id="userName">User</strong>
+                <small>My account</small>
+            </span>
+
+            <span class="account-chevron">⌄</span>
+        </button>
+
+        <div
+            class="account-dropdown"
+            id="accountDropdown"
+            aria-hidden="true"
+        >
+
+            <div class="account-dropdown-head">
+                <span
+                    class="account-avatar large"
+                    id="dropdownAvatar"
+                >E</span>
+
+                <div>
+                    <strong id="dropdownUserName">User</strong>
+                    <small>EventEase account</small>
+                </div>
+            </div>
+
+            <div class="account-divider"></div>
+
+            <a class="account-link" href="index.html">
+                <span>⌂</span>
+                <span>Home</span>
+            </a>
+
+            <a class="account-link" href="about.html">
+                <span>ⓘ</span>
+                <span>About</span>
+            </a>
+
+            <a class="account-link" href="services.html">
+                <span>✦</span>
+                <span>Services</span>
+            </a>
+
+            <button type="button" class="account-link" data-view-target="ai">
+                <span>✦</span>
+                <span>AI Assistant</span>
+            </button>
+<a class="account-link" href="settings.html"><span>⚙</span><span>Settings</span></a>
+
+            <a class="account-link" href="contact.html">
+                <span>✉</span>
+                <span>Contact</span>
+            </a>
+
+            <button type="button" class="account-link" data-view-target="overview">
+                <span>◉</span>
+                <span>Overview</span>
+            </button>
+            <button type="button" class="account-link" data-view-target="dashboard">
+                <span>▦</span>
+                <span>Dashboard</span>
+            </button>
+            <button type="button" class="account-link" data-view-target="events">
+                <span>◫</span>
+                <span>Events</span>
+            </button>
+            <button type="button" class="account-link" data-view-target="budget">
+                <span>₹</span>
+                <span>Budget</span>
+            </button>
+            <button type="button" class="account-link" data-view-target="reminders">
+                <span>⏰</span>
+                <span>Reminders</span>
+            </button>
+
+            <div class="account-divider"></div>
+
+            <!-- ONLY THIS BUTTON LOGS OUT -->
+            <button
+                type="button"
+                class="account-link account-logout"
+                id="logoutBtn"
+            >
+                <span>↪</span>
+                <span>Sign out</span>
+            </button>
+
+        </div>
+    </div>
+
+</header><main class="app-main container"><div class="workspace-view active" data-view-panel="overview">
+<section class="overview-head">
+  <div><span class="eyebrow">EVENTEASE OVERVIEW</span><h1>Everything at a glance.</h1><p>Your events, guests, tasks and budget in one quick view.</p></div>
+  <button class="btn btn-primary" id="overviewNewEventBtn">+ Create event</button>
+</section>
+<section class="overview-stats">
+  <article class="overview-card"><small>Total events</small><strong id="overviewEvents">0</strong><span>Across your workspace</span></article>
+  <article class="overview-card"><small>Upcoming events</small><strong id="overviewUpcoming">0</strong><span>Still to come</span></article>
+  <article class="overview-card"><small>Guests</small><strong id="overviewGuests">0</strong><span>Across all events</span></article>
+  <article class="overview-card"><small>Budget remaining</small><strong id="overviewBudget">₹0</strong><span>After recorded expenses</span></article>
+</section>
+<section class="overview-grid">
+  <div class="panel overview-panel"><div class="panel-head"><div><h2>Upcoming events</h2><p>Your next events at a glance.</p></div></div><div id="overviewEventsList" class="overview-event-list"></div></div>
+  <div class="panel overview-panel"><div class="panel-head"><div><h2>Task progress</h2><p>Keep your planning moving.</p></div><strong id="overviewTaskPercent">0%</strong></div><div class="overview-progress"><span id="overviewTaskBar"></span></div><div class="overview-task-meta"><span id="overviewTaskDone">0 completed</span><span id="overviewTaskTotal">0 total</span></div></div>
+  <div class="panel overview-panel"><div class="panel-head"><div><h2>Budget overview</h2><p>Planned budget versus spending.</p></div></div><div class="overview-budget"><div><span>Planned</span><strong id="overviewPlanned">₹0</strong></div><div><span>Spent</span><strong id="overviewSpent">₹0</strong></div><div><span>Remaining</span><strong id="overviewRemaining">₹0</strong></div></div></div>
+  <div class="panel overview-panel" id="countdownPanel"><div class="panel-head"><div><h2>Countdown</h2><p>Time until your next event.</p></div></div><div id="countdownBox" class="countdown-box"></div></div>
+  <div class="panel overview-panel quick-panel"><div class="panel-head"><div><h2>Quick actions</h2><p>Jump straight into planning.</p></div></div><div class="overview-actions"><button class="btn btn-small" data-view-target="events">Manage events</button><button class="btn btn-small" data-view-target="calendar">View calendar</button><button class="btn btn-small" data-open-chat>Ask EventEase AI</button></div></div>
+</section>
+</div><div class="workspace-view active" data-view-panel="dashboard"><section class="dashboard-head"><div><span class="eyebrow">DASHBOARD</span><h1 id="welcomeTitle">Welcome back.</h1><p>All Events Overview, then pick an event for individual insights.</p></div><button class="btn btn-primary" id="newEventBtn">+ Create Event</button></section>
+<section class="all-events-overview" aria-labelledby="allEventsTitle">
+  <div class="section-label dash-selector-row">
+    <div><h2 id="allEventsTitle">All Events Overview</h2><p id="dashContextLabel">Showing insights for All Events</p></div>
+    <label class="dash-event-selector">View insights for
+      <select id="dashEventSelect" aria-label="Select event for insights">
+        <option value="">All Events</option>
+      </select>
+    </label>
+  </div>
+  <section id="dashboard" class="stat-grid">
+    <div class="stat-card"><small>Total events</small><strong id="statEvents">0</strong><span>All your events</span></div>
+    <div class="stat-card"><small>Upcoming</small><strong id="statUpcoming">0</strong><span>Still to come</span></div>
+    <div class="stat-card"><small>Total guests</small><strong id="statGuests">0</strong><span>Across all events</span></div>
+    <div class="stat-card"><small>Budget remaining</small><strong id="statBudget">₹0</strong><span>After all expenses</span></div>
+  </section>
+  <div class="overview-budget dash-budget-row" id="dashBudgetSummary">
+    <div><span>Total budget</span><strong id="dashTotalBudget">₹0</strong></div>
+    <div><span>Total spent</span><strong id="budgetUsed">₹0</strong></div>
+    <div><span>Remaining</span><strong id="budgetRemaining">₹0</strong></div>
+  </div>
+  <div class="budget-meter dash-budget-meter" aria-hidden="true"><div class="meter"><span id="budgetBar"></span></div></div>
+</section>
+<section class="dashboard-analytics"><div class="chart-card"><div class="chart-header"><div><span>Budget flow</span><strong id="budgetChartTitle">₹0</strong></div><small>Spent vs available</small></div><svg id="budgetChartSvg" class="mini-chart" viewBox="0 0 300 120" preserveAspectRatio="none" aria-label="Budget flow chart"></svg></div><div class="chart-card"><div class="chart-header"><div><span>Task progress</span><strong id="taskChartTitle">0 / 0</strong></div><small>Done vs pending</small></div><svg id="taskChartSvg" class="mini-chart" viewBox="0 0 300 120" preserveAspectRatio="none" aria-label="Task progress chart"></svg></div><div class="chart-card"><div class="chart-header"><div><span>Guest response</span><strong id="guestChartTitle">0 / 0</strong></div><small>Accepted vs pending</small></div><svg id="guestChartSvg" class="mini-chart" viewBox="0 0 300 120" preserveAspectRatio="none" aria-label="Guest response chart"></svg></div></section>
+<section class="your-events-section" aria-labelledby="yourEventsTitle">
+  <div class="section-label"><h2 id="yourEventsTitle">Your Events</h2><p>Select an event to open individual insights</p></div>
+  <div class="your-events-grid-host" id="dashFocus" aria-label="Your events"></div>
+</section>
+</div><div class="workspace-view" data-view-panel="events"><section class="dashboard-grid"><div class="panel" id="events"><div class="panel-head"><div><h2>Events</h2><p>Create, filter and manage every celebration in one place.</p></div><div class="events-head-actions"><span id="eventsToggleWrap"></span><button class="btn btn-small" id="seedBtn">Load demo</button><button class="btn btn-primary btn-small" type="button" id="eventsCreateFocus">+ Create Event</button></div></div>
+<div class="events-toolbar" role="search">
+  <input type="search" id="eventsSearch" placeholder="Search by name or location…" aria-label="Search events" class="events-search">
+  <select id="eventsFilterStatus" aria-label="Filter by status"><option value="">All statuses</option><option value="Planning">Planning</option><option value="Confirmed">Confirmed</option><option value="Completed">Completed</option><option value="Cancelled">Cancelled</option><option value="Archived">Archived</option></select>
+  <select id="eventsFilterType" aria-label="Filter by type"><option value="">All types</option><option value="Wedding">Wedding</option><option value="Birthday">Birthday</option><option value="Conference">Conference</option><option value="Party">Party</option><option value="Corporate">Corporate</option></select>
+  <select id="eventsSort" aria-label="Sort events"><option value="date-asc">Date ↑</option><option value="date-desc">Date ↓</option><option value="name">Name</option><option value="budget">Budget</option></select>
+</div>
+<!-- Event creation lives in modal -->
+<div id="eventCreateModal" class="ee-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="eventModalTitle" hidden>
+  <div class="ee-modal">
+    <div class="ee-modal-header">
+      <h2 id="eventModalTitle">Create event</h2>
+      <button type="button" class="ee-modal-close" id="eventModalClose" aria-label="Close">×</button>
+    </div>
+    <form id="eventForm" class="event-form" aria-label="Create event">
+      <div>
+        <label for="eventName">Event name</label>
+        <input id="eventName" required placeholder="e.g. Priya & Arjun Wedding">
+      </div>
+      <div>
+        <label for="eventType">Type</label>
+        <input id="eventType" placeholder="Wedding, Birthday, Corporate…" value="Party" list="eventTypeList">
+        <datalist id="eventTypeList"><option value="Wedding"><option value="Birthday"><option value="Conference"><option value="Party"><option value="Corporate"></datalist>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div>
+          <label for="eventDate">Date</label>
+          <input id="eventDate" type="date" aria-label="Event date">
+        </div>
+        <div>
+          <label for="eventTime">Time</label>
+          <input id="eventTime" type="time" aria-label="Event time">
+        </div>
+      </div>
+      <div>
+        <label for="eventLocation">Location</label>
+        <input id="eventLocation" placeholder="Venue or city">
+      </div>
+      <div>
+        <label for="eventBudget">Total budget (₹)</label>
+        <input id="eventBudget" type="number" min="0" step="0.01" placeholder="0">
+      </div>
+      <div class="event-extras">
+        <div>
+          <label for="eventRemind">Reminder</label>
+          <select id="eventRemind" aria-label="Reminder"><option value="">No reminder</option><option value="1440">1 day before</option><option value="30">30 minutes before</option><option value="60">1 hour before</option><option value="custom">Custom…</option></select>
+        </div>
+        <div>
+          <label for="eventRemindCustom">Custom (minutes)</label>
+          <input id="eventRemindCustom" type="number" min="1" placeholder="Minutes before" hidden>
+        </div>
+        <label class="check"><input type="checkbox" id="eventChecklist" checked> Generate auto checklist</label>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-small" id="eventModalCancel">Cancel</button>
+        <button class="btn btn-small btn-primary" type="submit">Create Event</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="eventsList" class="event-list"></div></div></section></div><div class="workspace-view" data-view-panel="workspace"><section class="ws-shell"><button type="button" class="ws-back" id="wsBack">← Events</button><header class="ws-head"><span class="ws-icon" id="wsIcon" aria-hidden="true">🎉</span><div class="ws-head-txt"><h1 id="wsName">Event</h1><p id="wsMeta"></p></div><span class="pill" id="wsStatusPill"></span></header>
+<div class="ws-quick-actions" id="wsQuickActions" role="toolbar" aria-label="Event quick actions">
+  <button type="button" class="btn btn-small" data-ws-target="settings" id="wsQaEdit">Edit Event</button>
+  <button type="button" class="btn btn-small" data-ws-target="guests" id="wsQaGuest">+ Add Guest</button>
+  <button type="button" class="btn btn-small" data-ws-target="tasks" id="wsQaTask">+ Add Task</button>
+  <button type="button" class="btn btn-small" data-ws-target="budget" id="wsQaExpense">+ Add Expense</button>
+  <button type="button" class="btn btn-small" id="wsQaShare">Share Invite</button>
+  <button type="button" class="btn btn-small btn-dark" id="wsQaDelete">Delete Event</button>
+</div>
+<nav class="ws-tabs" id="wsTabs" aria-label="Event sections"><button type="button" class="active" data-ws-target="overview">Overview</button><button type="button" data-ws-target="guests">Guests</button><button type="button" data-ws-target="tasks">Tasks</button><button type="button" data-ws-target="budget">Budget</button><button type="button" data-ws-target="venue">Venue</button><button type="button" data-ws-target="schedule">Schedule</button><button type="button" data-ws-target="reminders">Reminders</button><button type="button" data-ws-target="invitations">Invitations</button><button type="button" data-ws-target="settings">Event Settings</button></nav><div id="wsPanels">
+<section class="ws-panel active" data-ws-panel="overview" id="wsOverview"></section>
+<section class="ws-panel" data-ws-panel="guests"><form id="wsGuestForm" class="inline-form"><input id="wsGuestName" required placeholder="Guest name"><input id="wsGuestContact" placeholder="Phone or email"><select id="wsGuestCategory" aria-label="Guest category"><option>Family</option><option>Friends</option><option>Work</option><option>Other</option></select><select id="wsGuestStatus" aria-label="RSVP status"><option>Pending</option><option>Accepted</option><option>Declined</option></select><button class="btn btn-small" type="submit">Add guest</button></form><div id="wsGuestList"></div></section>
+<section class="ws-panel" data-ws-panel="tasks"><form id="wsTaskForm" class="inline-form"><input id="wsTaskTitle" required placeholder="Add a task…"><input id="wsTaskAssignee" placeholder="Assigned to"><input id="wsTaskDue" type="date" aria-label="Due date"><select id="wsTaskPriority" aria-label="Priority"><option>Medium</option><option>Low</option><option>High</option></select><button class="btn btn-small" type="submit">Add task</button></form><div id="wsTaskList"></div></section>
+<section class="ws-panel" data-ws-panel="budget">
+<div class="budget-summary-cards">
+  <div class="budget-sum-card"><small>Budget</small><strong id="wsBudgetTotal">₹0</strong></div>
+  <div class="budget-sum-card"><small>Spent</small><strong id="wsBudgetUsed">₹0</strong></div>
+  <div class="budget-sum-card"><small>Remaining</small><strong id="wsBudgetRemaining">₹0</strong></div>
+  <div class="budget-sum-card"><small>Progress</small><strong id="wsBudgetPct">0%</strong></div>
+</div>
+<div class="budget-meter"><div class="meter"><span id="wsBudgetBar"></span></div></div>
+<div class="budget-actions-row">
+  <button type="button" class="btn btn-primary btn-small" id="wsAddExpenseBtn">+ Add Expense</button>
+</div>
+<form id="wsExpenseForm" class="expense-form" hidden>
+  <input id="wsExpenseName" required placeholder="Expense name">
+  <input id="wsExpenseAmount" type="number" min="0" step="0.01" required placeholder="Amount (₹)">
+  <select id="wsExpenseCategory" aria-label="Category"><option>Venue</option><option>Catering</option><option>Decor</option><option>Photography</option><option>Entertainment</option><option>Food</option><option>Other</option></select>
+  <input id="wsExpenseDate" type="date" aria-label="Expense date">
+  <input id="wsExpenseNotes" placeholder="Notes (optional)">
+  <input type="hidden" id="wsExpenseEditId" value="">
+  <div class="expense-form-actions">
+    <button type="button" class="btn btn-small" id="wsExpenseCancel">Cancel</button>
+    <button class="btn btn-small btn-primary" type="submit" id="wsExpenseSubmit">Add Expense</button>
+  </div>
+  <p class="form-error" id="wsExpenseError" role="alert" hidden></p>
+</form>
+<div id="wsExpenseList" class="expense-list"></div>
+</section>
+<section class="ws-panel" data-ws-panel="venue"><form id="wsVenueForm" class="venue-form"><input id="wsVenueName" placeholder="Venue name"><input id="wsVenueCity" placeholder="City / address"><input id="wsVenueCapacity" type="number" min="0" placeholder="Capacity"><input id="wsVenueContact" placeholder="Contact person"><textarea id="wsVenueNotes" rows="2" placeholder="Notes"></textarea><button class="btn btn-small" type="submit">Save venue</button></form><div id="wsVenueView" class="venue-view"></div></section>
+<section class="ws-panel" data-ws-panel="schedule"><form id="wsScheduleForm" class="inline-form"><input id="wsScheduleTime" type="time" required aria-label="Time"><input id="wsScheduleTitle" required placeholder="Activity"><button class="btn btn-small" type="submit">Add</button></form><div id="wsScheduleList" class="ws-timeline"></div></section>
+<section class="ws-panel" data-ws-panel="reminders">
+<div class="ws-inline-head"><h3>Event reminders</h3><button type="button" class="btn btn-small btn-primary" id="wsRemAdd">+ Add Reminder</button></div>
+<form id="wsRemForm" class="inline-form" hidden>
+  <input id="wsRemTitle" required placeholder="Reminder title">
+  <input id="wsRemDate" type="date" required>
+  <input id="wsRemTime" type="time">
+  <input id="wsRemNotes" placeholder="Notes">
+  <button class="btn btn-small btn-primary" type="submit">Save</button>
+  <button class="btn btn-small" type="button" id="wsRemFormCancel">Cancel</button>
+</form>
+<div id="wsRemList"></div>
+</section>
+<section class="ws-panel" data-ws-panel="invitations">
+<div class="invite-workspace">
+  <p>Create and share a guest-facing invitation for this event. Private budget and task details are never included.</p>
+  <div class="budget-actions-row">
+    <button type="button" class="btn btn-primary btn-small" id="wsInviteShare">Share Invite</button>
+    <button type="button" class="btn btn-small" id="wsInviteCopy">Copy Invitation Link</button>
+    <button type="button" class="btn btn-small" id="wsInviteMaps">Open Location</button>
+  </div>
+  <div class="invite-preview-card" id="wsInvitePreview"></div>
+  <div class="invite-qr-row">
+    <canvas id="wsInviteQr" width="160" height="160" aria-label="Invitation QR code"></canvas>
+    <div>
+      <button type="button" class="btn btn-small" id="wsInviteQrDl">Download QR</button>
+      <p class="muted">QR opens the public invitation link. Works with phone cameras.</p>
+    </div>
+  </div>
+</div>
+</section>
+<section class="ws-panel" data-ws-panel="settings"><form id="wsEditForm" class="event-form"><input id="wsEditName" required placeholder="Event name"><input id="wsEditType" placeholder="Type"><input id="wsEditDate" type="date" aria-label="Date"><input id="wsEditStart" type="time" aria-label="Start time"><input id="wsEditEnd" type="time" aria-label="End time"><input id="wsEditLocation" placeholder="Location"><input id="wsEditBudget" type="number" min="0" placeholder="Total budget (₹)"><textarea id="wsEditDesc" rows="2" placeholder="Description"></textarea><select id="wsEditStatus" aria-label="Status"><option>Planning</option><option>Confirmed</option><option>Completed</option><option>Cancelled</option><option>Archived</option></select><div class="expense-form-actions"><button type="button" class="btn btn-small" id="wsEditCancel">Cancel</button><button class="btn btn-small btn-primary" type="submit">Save Changes</button></div></form><div class="ws-danger"><button type="button" class="btn" id="wsDuplicate">Duplicate event</button><button type="button" class="btn" id="wsArchive">Archive event</button><button type="button" class="btn btn-dark" id="wsDelete">Delete event</button></div></section>
+</div></section></div><div class="workspace-view" data-view-panel="budget">
+<section class="panel budget-page-panel">
+  <div class="panel-head">
+    <div><h2>Budget</h2><p id="budgetContextLabel">Showing budget for All Events</p></div>
+    <label class="dash-event-selector">Select event
+      <select id="budgetEventSelect" aria-label="Select event for budget"><option value="">All Events</option></select>
+    </label>
+  </div>
+  <div id="budgetWorkspace"></div>
+</section>
+</div>
+<div class="workspace-view" data-view-panel="reminders">
+<section class="panel reminders-page-panel">
+  <div class="panel-head">
+    <div><h2>Reminders</h2><p id="reminderContextLabel">Reminders for All Events</p></div>
+    <label class="dash-event-selector">Select event
+      <select id="reminderEventSelect" aria-label="Select event for reminders"><option value="">All Events</option></select>
+    </label>
+  </div>
+  <div id="remindersWorkspace"></div>
+</section>
+</div>
+<div class="workspace-view" data-view-panel="calendar"><section class="panel" id="calendarPanel"><div class="panel-head"><div><h2>Calendar</h2><p>All your upcoming events in one place.</p></div><div class="cal-nav"><button type="button" class="tiny-btn" id="calPrev" aria-label="Previous month">‹</button><strong id="calTitle"></strong><button type="button" class="tiny-btn" id="calNext" aria-label="Next month">›</button></div></div><div id="calGrid" class="cal-grid"></div><div id="calDay" class="cal-day"></div></section></div><div class="workspace-view" data-view-panel="ai">
+<section class="ai-assistant-page">
+  <div class="ai-assistant-hero">
+    <span class="eyebrow">AI WORKSPACE</span>
+    <h1>EventEase Assistant</h1>
+    <p>Ask about your events, generate checklists, explore budget breakdowns, or plan timelines. The assistant uses your live EventEase data and works offline for many common questions.</p>
+    <button class="btn btn-primary" data-open-chat type="button">Open chat ✦</button>
+  </div>
+  <div class="ai-suggestion-grid">
+    <button class="ai-suggestion-card" data-open-chat type="button"><strong>Wedding checklist</strong><span>Practical steps from planning to the big day.</span></button>
+    <button class="ai-suggestion-card" data-open-chat type="button"><strong>College fest ideas</strong><span>Themes, activities and organisation tips.</span></button>
+    <button class="ai-suggestion-card" data-open-chat type="button"><strong>Budget breakdown</strong><span>Allocate spend across common categories.</span></button>
+    <button class="ai-suggestion-card" data-open-chat type="button"><strong>Event timeline</strong><span>Build a clear schedule for the day.</span></button>
+  </div>
+</section>
+</div>
+</main><div id="modalRoot"></div>
+<nav class="mobile-bottom-nav" aria-label="Primary mobile navigation">
+  <button type="button" class="mb-nav-item active" data-view-target="overview" aria-label="Overview">
+    <span class="mb-icon" aria-hidden="true">◉</span>
+    <span class="mb-label">Overview</span>
+  </button>
+  <button type="button" class="mb-nav-item" data-view-target="events" aria-label="Events">
+    <span class="mb-icon" aria-hidden="true">◫</span>
+    <span class="mb-label">Events</span>
+  </button>
+  <button type="button" class="mb-nav-item" data-view-target="budget" aria-label="Budget">
+    <span class="mb-icon" aria-hidden="true">₹</span>
+    <span class="mb-label">Budget</span>
+  </button>
+  <button type="button" class="mb-nav-item" data-view-target="calendar" aria-label="Calendar">
+    <span class="mb-icon" aria-hidden="true">▦</span>
+    <span class="mb-label">Calendar</span>
+  </button>
+  <button type="button" class="mb-nav-item" data-view-target="ai" aria-label="AI Assistant">
+    <span class="mb-icon" aria-hidden="true">✦</span>
+    <span class="mb-label">AI</span>
+  </button>
+</nav>
+<button class="chat-fab" data-open-chat aria-label="Open EventEase AI">✦</button><div id="chat-root"></div><script src="js/store.js?v=34"></script><script src="js/app.js?v=34"></script><script src="js/workspace.js?v=34"></script><script src="js/transitions.js?v=34"></script><script src="js/settings.js?v=38"></script><script src="js/features.js?v=34"></script><script src="js/budget.js?v=34"></script><script src="js/reminders.js?v=34"></script><script src="js/share.js?v=34"></script><script src="js/i18n.js?v=34"></script><script src="js/enhancements.js?v=34"></script><script src="js/planner.js?v=34"></script><script src="js/chatbot.js?v=34"></script></body></html>

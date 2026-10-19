@@ -1,0 +1,12 @@
+/* Solid INK PURPLE page background — no multi-stop gradient */
+.bg-peach,
+.bg-peach.gradient-momobikari,
+.gradient-momobikari {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: -1 !important;
+  pointer-events: none !important;
+  background: #270A57 !important;
+  background-image: none !important;
+}
+.gradient-momobikari::after { display: none !important; content: none !important; }

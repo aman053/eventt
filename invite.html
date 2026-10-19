@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#090A0C">
+  <title>You're invited — EventEase</title>
+  <link rel="stylesheet" href="css/style.css?v=34">
+  <link rel="stylesheet" href="css/liquid-glass.css?v=34"><link rel="stylesheet" href="css/obsidian-gold.css?v=41">
+</head>
+<body>
+  
+  <main class="invite-wrap">
+    <article class="invite-card" id="card" aria-live="polite">
+      <p class="invite-kicker">YOU'RE INVITED</p>
+      <h1 id="iName">Loading…</h1>
+      <p id="iType"></p>
+      <p class="invite-line" id="iDate"></p>
+      <p class="invite-line" id="iTime"></p>
+      <p class="invite-line" id="iLoc"></p>
+      <p class="invite-msg" id="iMsg"></p>
+      <p class="invite-host" id="iHost"></p>
+
+      <section class="invite-rsvp" id="rsvpBox" hidden>
+        <h2 class="invite-rsvp-title">Will you attend?</h2>
+        <div class="invite-rsvp-btns" role="group" aria-label="RSVP">
+          <button type="button" class="btn btn-primary" data-rsvp="Accepted">Yes</button>
+          <button type="button" class="btn" data-rsvp="Maybe">Maybe</button>
+          <button type="button" class="btn" data-rsvp="Declined">No</button>
+        </div>
+        <form id="rsvpForm" class="invite-rsvp-form" hidden>
+          <label>Your name<input id="rsvpName" required autocomplete="name" placeholder="Full name"></label>
+          <label>Email (optional)<input id="rsvpEmail" type="email" autocomplete="email" placeholder="you@example.com"></label>
+          <button type="submit" class="btn btn-primary" id="rsvpSubmit">Send RSVP</button>
+        </form>
+        <p id="rsvpDone" class="invite-rsvp-done" hidden role="status"></p>
+      </section>
+
+      <div class="invite-actions">
+        <button class="btn btn-primary" id="iCal" type="button" hidden>Add to calendar</button>
+        <a class="btn" href="index.html">Plan your own event with EventEase</a>
+      </div>
+    </article>
+  </main>
+  <script src="js/store.js?v=30"></script>
+  <script>
+  (function () {
+    const $ = (id) => document.getElementById(id);
+    let d;
+    try {
+      d = JSON.parse(decodeURIComponent(escape(atob(location.hash.slice(1).replace(/-/g, '+').replace(/_/g, '/')))));
+    } catch (e) {}
+    if (!d || !d.n) {
+      $('iName').textContent = 'Invitation not found';
+      $('iType').textContent = 'This link is incomplete. Ask the host to share it again.';
+      return;
+    }
+    document.title = d.n + ' — Invitation';
+    $('iName').textContent = d.n;
+    $('iType').textContent = d.t || '';
+    if (d.d) {
+      const dt = new Date(d.d + 'T00:00');
+      $('iDate').textContent = '📅 ' + dt.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    }
+    if (d.tm) $('iTime').textContent = '⏰ ' + d.tm;
+    if (d.l) $('iLoc').textContent = '📍 ' + d.l;
+    if (d.m) $('iMsg').textContent = d.m;
+    if (d.h) $('iHost').textContent = 'Hosted by ' + d.h;
+
+    $('rsvpBox').hidden = false;
+    let choice = 'Accepted';
+    document.querySelectorAll('[data-rsvp]').forEach((btn) => {
+      btn.onclick = () => {
+        choice = btn.getAttribute('data-rsvp');
+        document.querySelectorAll('[data-rsvp]').forEach((b) => b.classList.remove('btn-primary'));
+        btn.classList.add('btn-primary');
+        $('rsvpForm').hidden = false;
+        $('rsvpName').focus();
+      };
+    });
+
+    function saveRsvp(name, email, status) {
+      const entry = {
+        id: 'rsvp_' + Date.now(),
+        eventId: d.id || '',
+        eventName: d.n,
+        hostEmail: d.he || '',
+        name: name,
+        email: email || '',
+        status: status,
+        at: new Date().toISOString()
+      };
+      let box = [];
+      try { box = JSON.parse(localStorage.getItem('eventease_rsvp_inbox') || '[]'); } catch (e) { box = []; }
+      if (!Array.isArray(box)) box = [];
+      box.push(entry);
+      try { localStorage.setItem('eventease_rsvp_inbox', JSON.stringify(box.slice(-200))); } catch (e) {}
+
+      // If host is signed in on this device and event exists, attach guest now
+      try {
+        const S = window.EventEaseStore;
+        if (S && S.currentUser && S.currentUser() && d.id) {
+          const u = S.currentUser();
+          const ev = S.scoped('events').find((x) => x.id === d.id);
+          if (ev && (!d.he || d.he === u.email)) {
+            S.add('guests', {
+              eventId: d.id,
+              name: name,
+              email: email || '',
+              status: status,
+              fromRsvp: true
+            });
+            return { applied: true };
+          }
+        }
+      } catch (e) {}
+      return { applied: false, entry: entry };
+    }
+
+    $('rsvpForm').onsubmit = (e) => {
+      e.preventDefault();
+      const name = $('rsvpName').value.trim();
+      if (!name) return;
+      const email = $('rsvpEmail').value.trim();
+      const res = saveRsvp(name, email, choice);
+      $('rsvpForm').hidden = true;
+      document.querySelector('.invite-rsvp-btns').hidden = true;
+      const done = $('rsvpDone');
+      done.hidden = false;
+      if (res.applied) {
+        done.textContent = 'Thanks, ' + name + '! Your RSVP (' + choice + ') was saved for the host.';
+      } else {
+        const line = 'RSVP for ' + d.n + ': ' + name + ' — ' + choice + (email ? ' (' + email + ')' : '');
+        done.innerHTML = 'Thanks, ' + name + '! Response: <strong>' + choice + '</strong>.<br>Saved on this device for the host. You can also send them this message:';
+        const ta = document.createElement('textarea');
+        ta.className = 'invite-rsvp-copy';
+        ta.readOnly = true;
+        ta.value = line;
+        done.appendChild(ta);
+        const copyBtn = document.createElement('button');
+        copyBtn.type = 'button';
+        copyBtn.className = 'btn';
+        copyBtn.textContent = 'Copy message';
+        copyBtn.onclick = () => { navigator.clipboard.writeText(line).then(() => { copyBtn.textContent = 'Copied'; }); };
+        done.appendChild(copyBtn);
+      }
+    };
+
+    if (d.d) {
+      $('iCal').hidden = false;
+      $('iCal').onclick = function () {
+        const s = d.d.replace(/-/g, '') + 'T' + ((d.tm || '09:00').replace(':', '') + '00');
+        const ics = [
+          'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//EventEase//EN', 'BEGIN:VEVENT',
+          'UID:' + Date.now() + '@eventease',
+          'DTSTAMP:' + new Date().toISOString().replace(/[-:]|\.\d+/g, ''),
+          'DTSTART:' + s, 'SUMMARY:' + d.n, d.l ? 'LOCATION:' + d.l : '', 'END:VEVENT', 'END:VCALENDAR'
+        ].filter(Boolean).join('\r\n');
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+        a.download = 'invitation.ics';
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      };
+    }
+  })();
+  </script>
+</body>
+</html>
